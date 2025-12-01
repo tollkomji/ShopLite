@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint .",
-    "format": "prettier --write .",
     "build": "echo build ok",
-    "test": "echo test ok"
+    "test": "echo test ok",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "lint-staged": {
     "*.{ts,js,json,md}": [
