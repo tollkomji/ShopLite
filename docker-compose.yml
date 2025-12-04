@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: shoplite_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: shoplite
+    ports:
+      - '5432:5432'
+    volumes:
+      - shoplite_pg:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  shoplite_pg:
