@@ -35,6 +35,7 @@ temp/
 
 # Prisma
 **/prisma/migrations/
+apps/*/src/generated/
 
 # Testing
 playwright-report/
