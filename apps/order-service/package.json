@@ -8,7 +8,8 @@
     "build": "tsc -p tsconfig.json",
     "start": "dotenv -e .env -- node dist/index.js",
     "prisma:generate": "dotenv -e .env -- prisma generate",
-    "prisma:migrate": "dotenv -e .env -- prisma migrate dev"
+    "prisma:migrate": "dotenv -e .env -- prisma migrate dev",
+    "prisma:deploy:test": "dotenv -e .env.test -- prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "6.19.1",
