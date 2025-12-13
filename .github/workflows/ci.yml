@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shoplite
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d shoplite"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Prepare test DB schemas
+        run: |
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          psql "postgresql://postgres:postgres@localhost:5432/shoplite" -c "CREATE SCHEMA IF NOT EXISTS catalog_test; CREATE SCHEMA IF NOT EXISTS orders_test;"
+
+      - name: Prisma generate
+        run: |
+          pnpm -C apps/catalog-service exec prisma generate
+          pnpm -C apps/order-service exec prisma generate
+
+      - name: Deploy migrations to test schemas
+        run: pnpm db:test:deploy
+        env:
+          DATABASE_URL_CATALOG_TEST: postgresql://postgres:postgres@localhost:5432/shoplite?schema=catalog_test
+          DATABASE_URL_ORDERS_TEST: postgresql://postgres:postgres@localhost:5432/shoplite?schema=orders_test
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
