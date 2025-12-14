@@ -23,6 +23,7 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+!.env.*.example
 
 # Runtime / temp
 tmp/
@@ -34,7 +35,6 @@ temp/
 *.d.ts.map
 
 # Prisma
-**/prisma/migrations/
 apps/*/src/generated/
 
 # Testing
@@ -51,6 +51,7 @@ docker-data/
 **/docker-data/
 
 # IDE / OS
+._*
 .vscode/
 .idea/
 *.iml

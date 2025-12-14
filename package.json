@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "echo build ok",
+    "build": "pnpm -r --if-present build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
@@ -13,7 +13,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "db:test:deploy": "DATABASE_URL=$DATABASE_URL_CATALOG_TEST pnpm -C apps/catalog-service exec prisma migrate deploy && DATABASE_URL=$DATABASE_URL_ORDERS_TEST pnpm -C apps/order-service exec prisma migrate deploy"
+    "db:test:deploy": "DATABASE_URL=$DATABASE_URL_CATALOG_TEST pnpm -C apps/catalog-service exec prisma migrate deploy && DATABASE_URL=$DATABASE_URL_ORDERS_TEST pnpm -C apps/order-service exec prisma migrate deploy",
+    "test:unit": "vitest run -c vitest.unit.config.ts",
+    "test:all": "vitest run"
   },
   "lint-staged": {
     "*.{ts,js,json,md}": [
