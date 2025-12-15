@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "dotenv -e .env -- ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc -p tsconfig.json",
+    "postbuild": "node -e \"require('fs').cpSync('src/generated','dist/generated',{recursive:true})\"",
     "start:local": "dotenv -e .env -- node dist/index.js",
     "start:prod": "node dist/index.js",
     "prisma:generate": "prisma generate",
