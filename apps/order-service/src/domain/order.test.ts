@@ -27,6 +27,27 @@ describe('normalizeItems', () => {
       items: [{ productId: 'p1', qty: 2 }],
     });
   });
+
+  it('rejects non-string productId', () => {
+    expect(normalizeItems([{ productId: 123, qty: 1 }])).toEqual({
+      ok: false,
+      error: 'productId is required',
+    });
+  });
+
+  it('rejects qty when it is not a number', () => {
+    expect(normalizeItems([{ productId: 'p1', qty: '2' }])).toEqual({
+      ok: false,
+      error: 'qty must be a positive integer',
+    });
+  });
+
+  it('rejects qty when it is not an integer', () => {
+    expect(normalizeItems([{ productId: 'p1', qty: 1.5 }])).toEqual({
+      ok: false,
+      error: 'qty must be a positive integer',
+    });
+  });
 });
 
 describe('calcTotal', () => {
