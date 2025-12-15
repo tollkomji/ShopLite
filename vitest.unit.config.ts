@@ -2,7 +2,16 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['apps/**/src/domain/**/*.test.ts', 'packages/**/src/**/*.test.ts'],
     environment: 'node',
+    include: ['apps/**/src/**/*.test.ts', 'apps/**/src/**/*.spec.ts'],
+    exclude: [
+      '**/*.int.test.ts',
+      '**/*.e2e.test.ts',
+      '**/dist/**',
+      '**/.stryker-tmp/**',
+      '**/node_modules/**',
+      '**/coverage/**',
+      '**/src/generated/**',
+    ],
   },
 });
