@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "dotenv -e .env -- ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "dotenv -e .env -- node dist/index.js",
-    "prisma:generate": "dotenv -e .env -- prisma generate",
-    "prisma:migrate": "dotenv -e .env -- prisma migrate dev",
+    "start:local": "dotenv -e .env -- node dist/index.js",
+    "start:prod": "node dist/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "dotenv -e .env -- prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:deploy:test": "dotenv -e .env.test -- prisma migrate deploy"
   },
   "dependencies": {
